@@ -30,18 +30,38 @@
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
 	// Add your code here
-	var rightNow = new GlideDateTime();
-	var whenNeeded = new GlideDateTime(current.u_when_needed);
+	// var rightNow = new GlideDateTime();
+	// var whenNeeded = new GlideDateTime(current.u_when_needed);
 
-	if(whenNeeded.before(rightNow)){
+	// if(whenNeeded.before(rightNow)){
+	// 	gs.addErrorMessage("When needed date cannot be in the past. Your request has not been saved to the database.");
+	// 	current.setAbortAction(true);
+	// }
+
+	// Instantiate the NeedItUtils class. Call the isDatePast method and pass
+	// the u_when_needed value.
+	var niUtils = new NeedItUtils();
+	var isPast = niUtils.isDatePast(current.u_when_needed);
+
+	// If the isDatePast method returns true, the date is in the past.
+	if (isPast == true) {
 		gs.addErrorMessage("When needed date cannot be in the past. Your request has not been saved to the database.");
 		current.setAbortAction(true);
 	}
 
-	var today=rightNow.getLocalDate();
-	var isToday=whenNeeded.getLocalDate();
+	// var today = rightNow.getLocalDate();
+	// var isToday = whenNeeded.getLocalDate();
 
-	if(today.compareTo(isToday)==0){
+	// if (today.compareTo(isToday) == 0) {
+	// 	gs.addErrorMessage("You cannot submit NeedIt requests for today.");
+	// 	current.setAbortAction(true);
+	// }
+
+	// pass the When needed field value to the isDateToday method in NeedItUtils
+	var isToday = niUtils.isDateToday(current.u_when_needed);
+
+	// if the isDateToday method returns true the When needed date is today
+	if (isToday == true) {
 		gs.addErrorMessage("You cannot submit NeedIt requests for today.");
 		current.setAbortAction(true);
 	}
@@ -52,7 +72,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>7866203f83ad521028c1b5a6feaad399</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>NeedIt When needed field date</sys_name>
         <sys_overrides/>
         <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
@@ -60,7 +80,7 @@
         <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
         <sys_update_name>sys_script_7866203f83ad521028c1b5a6feaad399</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-11-05 08:48:22</sys_updated_on>
+        <sys_updated_on>2024-11-06 08:05:28</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>
